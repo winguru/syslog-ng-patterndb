@@ -1,0 +1,35 @@
+<patterndb version='4' pub_date='2018-07-11'>
+  <ruleset name='apache2-access' id='2cde770c-486f-c449-b701-22a349308d8e'>
+    <pattern>apache2</pattern>
+    <rules>
+      <rule id='413c2566-785a-c748-a75e-20f47ea33d48' class='http' provider='winguru'>
+        <!-- support: 1 -->
+        <patterns>
+          <!-- LogFormat "%h \"%{GEOIP_CITY}e, %{GEOIP_REGION}e, %{GEOIP_COUNTRY_CODE}e, %{GEOIP_ASN}e\" %t \"%m http://%V%U%q\" %>s %O %T \"%{Referer}i\" \"%{User-Agent}i\"" combined-geoip -->
+          <pattern>@IPvANY:src_ip:@ &quot;@ESTRING:http_location:&quot;@ - - [@ESTRING:http_timestamp:]@ @HOSTNAME:http_domain@ &quot;@ESTRING:http_method: @@ESTRING:http_uri: @@ESTRING:http_protocol:&quot;@ @NUMBER:http_response_code@ @NUMBER:http_bytes@ &quot;@ESTRING:http_referrer:&quot;@ &quot;@ESTRING:http_agent:&quot;@</pattern>
+          <!-- <pattern>@IPvANY:src_ip@ &quot;@ESTRING:src_location:&quot;@ - - [@ESTRING:http_timestamp:]@ @HOSTNAME:http_domain@ &quot;@ESTRING:http_method: @@ESTRING:http_path: @@ESTRING:http_protocol:&quot;@ @NUMBER:http_code@ @NUMBER:http_bytes@ &quot;@ESTRING:http_url:&quot;@ &quot;@ESTRING:http_agent:&quot;@</pattern> -->
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='apache2'>136.24.115.2 &quot;San Francisco, CA, US, -&quot; - - [11/Jul/2018:17:37:22 -0400] thewinguru.com &quot;GET / HTTP/1.1&quot; 200 7263 &quot;http://thewinguru.com/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134&quot;</test_message>
+            </example>
+        </examples>
+      </rule>
+       <rule id='b877d467-8236-4c0e-873b-9ffeaf26c6db' class='http' provider='winguru'>
+        <!-- support: 1 -->
+        <patterns>
+          <!-- LogFormat "%{X-Forwarded-For}i (%h) \"%{GEOIP_CITY}e, %{GEOIP_REGION}e, %{GEOIP_COUNTRY_CODE}e, %{GEOIP_ASN}e\" %t \"%m http://%V%U%q\" %>s %O %T \"%{Referer}i\" \"%{User-Agent}i\"" combined-geoip-proxy -->
+          <pattern>@IPvANY:src_ip:@ (@IPvANY:http_proxy_ip:@) &quot;@ESTRING:http_location:&quot;@ - - [@ESTRING:http_timestamp:]@ @HOSTNAME:http_domain@ &quot;@ESTRING:http_method: @@ESTRING:http_uri: @@ESTRING:http_protocol:&quot;@ @NUMBER:http_response_code@ @NUMBER:http_bytes@ &quot;@ESTRING:http_referrer:&quot;@ &quot;@ESTRING:http_agent:&quot;@</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='apache2'>136.24.115.2 (127.0.0.1) &quot;San Francisco, CA, US, -&quot; - - [11/Jul/2018:17:37:22 -0400] thewinguru.com &quot;GET / HTTP/1.1&quot; 200 7263 &quot;http://thewinguru.com/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134&quot;</test_message>
+            </example>
+            <example>
+                <test_message program='apache2'>2604:5500:c0c9:6f00:cca1:c401:b622:48c3 (172.68.141.232) &quot;-, -, -, -&quot; - - [13/Jul/2018:15:36:32 -0400] thewinguru.com &quot;POST http://www.thewinguru.com/mod_pagespeed_beacon?url=http%3A%2F%2Fwww.thewinguru.com%2F HTTP/1.1&quot; 204 188 0 &quot;http://www.thewinguru.com/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134&quot;</test_message>
+            </example>
+        </examples>
+      </rule>
+    </rules>
+  </ruleset>
+</patterndb>

@@ -1,0 +1,113 @@
+<patterndb version='4' pub_date='2017-04-22'>
+<ruleset name='asus-router-traffic' id='a52c1acb-232e-5b45-bc09-d1de3705b973'>
+    <pattern>kernel</pattern>
+    <rules>
+      
+        <rule id='42322327-b611-4c83-894b-83dd266b186b' class='traffic' provider='winguru'>
+        <patterns>
+            <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @@PCRE:ip_headers:.* PROTO=TCP@ SPT=@STRING:src_port:@ DPT=@STRING:dst_port:@ @ANYSTRING:tcp_headers:@</pattern>
+            <values>
+                <value name="ip_proto">TCP</value>
+            </values>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='kernel'>ACCEPT IN=br0 OUT=eth0 SRC=2601:0403:c100:6b3e:a10f:3fa8:71df:ca6f DST=2a03:2880:f20b:00c1:face:b00c:0000:32c2 LEN=91 TC=0 HOPLIMIT=63 FLOWLBL=0 PROTO=TCP SPT=2689 DPT=443 SEQ=1245599072 ACK=4224431639 WINDOW=881 RES=0x00 ACK PSH URGP=0 </test_message>
+            </example>
+        </examples>
+      </rule>
+
+       <rule id='b169fe31-c9a5-214d-a9a4-bbf1725035b3' class='traffic' provider='winguru'>
+        <patterns>
+        <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @MAC=@ESTRING:src_mac: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @ANYSTRING::@ PROTO=@ESTRING:ip_proto: @SPT=@ESTRING:src_port: @DPT=@ESTRING:dst_port: @LEN=@ESTRING:tcp_len:@</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='kernel'>DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=87.126.172.24 DST=68.55.212.82 LEN=289 TOS=0x00 PREC=0x20 TTL=114 ID=9058 PROTO=UDP SPT=36466 DPT=15400 LEN=269 </test_message>
+            </example>
+        </examples>
+      </rule>
+
+     <rule id='969e0555-59d7-4fa8-841b-ef55709000f1' class='traffic' provider='winguru'>
+        <patterns>
+        <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @MAC=@LLADDR:src_mac:28@ SRC=@IPvANY:src_ip:@ DST=@IPvANY:dst_ip:@ @PCRE:ip_headers:.*PROTO=@@ESTRING:ip_proto: @SPT=@ESTRING:src_port: @DPT=@ESTRING:dst_port: @ANYSTRING:tcp_headers:@</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='kernel'>DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=187.66.236.148 DST=68.55.212.82 LEN=40 TOS=0x00 PREC=0x20 TTL=53 ID=56736 PROTO=TCP SPT=54066 DPT=23 SEQ=1144509522 ACK=0 WINDOW=51242 RES=0x00 SYN URGP=0 </test_message>
+            </example>
+        </examples>
+      </rule>
+
+      <rule id='c769bdbe-f47b-47ee-9192-ab22f94a21d1' class='traffic' provider='winguru'>
+        <patterns>
+        <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @MAC=@ESTRING:src_mac: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @LEN=@ESTRING:ip_len: @TOS=@ESTRING:ip_tos: @PREC=@ESTRING:ip_prec: @TTL=@ESTRING:ip_ttl: @ID=@ESTRING:ip_id: @DF PROTO=@ESTRING:ip_proto: @SPT=@ESTRING:src_port: @DPT=@ESTRING:dst_port: @SEQ=@ESTRING:tcp_seq: @ACK=@ESTRING:tcp_ack: @WINDOW=@STRING:tcp_win:@</pattern>
+        </patterns>
+        <values>
+            <value name="ip_df">/DF</value>
+        </values>
+        <examples>
+            <example>
+            <test_message program='kernel'>DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=23.53.233.96 DST=68.55.212.82 LEN=83 TOS=0x00 PREC=0x20 TTL=58 ID=61346 DF PROTO=TCP SPT=443 DPT=51946 SEQ=3629164947 ACK=1450684092 WINDOW=1391 RES=0x00 ACK PSH URGP=0 OPT (0101080AE9C47940484125FC) MARK=0x411400b9
+            </test_message>
+            </example>
+        </examples>
+      </rule>
+
+      <rule id='4d5bf073-199f-4d8c-9b44-6d02f03bb06a' class='traffic' provider='winguru'>
+        <patterns>
+          <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @LEN=@ESTRING:ip_len: @TC=@ESTRING:: @HOPLIMIT=@ESTRING:: @FLOWLBL=@ESTRING:: @PROTO=@ESTRING:ip_proto: @SPT=@ESTRING:src_port: @DPT=@ESTRING:dst_port: @LEN=@ESTRING::@</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='kernel'>ACCEPT IN=br0 OUT=eth0 SRC=2601:0403:c100:6b3e:a10f:3fa8:71df:ca6f DST=2607:f8b0:4009:0816:0000:0000:0000:200e LEN=1398 TC=0 HOPLIMIT=63 FLOWLBL=0 PROTO=UDP SPT=53679 DPT=443 LEN=1358 </test_message>
+            </example>
+        </examples>
+      </rule>
+
+      <rule id='0e980541-76c3-4d83-9ef7-7bcaae30b1b9' class='traffic' provider='winguru'>
+        <patterns>
+            <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @LEN=@ESTRING:: @TOS=@ESTRING:: @PREC=@ESTRING:: @TTL=@ESTRING:: @ID=@ESTRING:: @DF PROTO=@ESTRING:: @SPT=@ESTRING:: @DPT=@ESTRING:: @SEQ=@ESTRING:: @ACK=@ESTRING:: @WINDOW=@ESTRING:: @RES=@ESTRING:: @SYN URGP=@ESTRING:: @OPT (@ESTRING::@)</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='kernel'> DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=87.17.173.143 DST=68.55.212.82 LEN=48 TOS=0x00 PREC=0x20 TTL=50 ID=23140 DF PROTO=TCP SPT=51765 DPT=15400 SEQ=251116667 ACK=0 WINDOW=8192 RES=0x00 SYN URGP=0 OPT (020405AC01010402) </test_message>
+            </example>
+        </examples>
+      </rule>
+
+      <rule id='eb0bf840-5203-4fc4-901f-1d67f5d12f0c' class='traffic' provider='winguru'>
+        <patterns>
+            <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @LEN=@ESTRING:: @TC=@ESTRING:: @HOPLIMIT=@ESTRING:: @FLOWLBL=@ESTRING:: @PROTO=@ESTRING:: @SPT=@ESTRING:: @DPT=@ESTRING:: @SEQ=@ESTRING:: @ACK=@ESTRING:: @WINDOW=@ESTRING:: @RES=@ESTRING:: @SYN URGP=@ESTRING:: @OPT (@STRING::@)</pattern>
+        </patterns>
+        <examples>
+            <example>
+            <test_message program='kernel'> ACCEPT IN=br0 OUT=eth0 SRC=2601:0403:c100:6b3e:0204:4bff:fe46:e101 DST=2607:f8b0:4009:0812:0000:0000:0000:200e LEN=80 TC=0 HOPLIMIT=63 FLOWLBL=0 PROTO=TCP SPT=33399 DPT=443 SEQ=374957592 ACK=0 WINDOW=65535 RES=0x00 SYN URGP=0 OPT (020405A00402080A004A87180000000001030306) </test_message>
+            </example>
+        </examples>
+      </rule>
+
+      <rule id='1c4a5293-e004-4041-a274-d227a27e0dc4' class='traffic' provider='winguru'>
+        <patterns>
+            <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @L@ANYSTRING:ip_headers:@ PROTO=@ESTRING:: @SPT=@ESTRING:: @DPT=@ESTRING:: @LEN=@ESTRING::@</pattern>
+        </patterns>
+        <examples>
+            <example>
+            <test_message program='kernel'> DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=37.140.123.246 DST=68.55.212.82 LEN=101 TOS=0x00 PREC=0x20 TTL=112 ID=27334 DF PROTO=UDP SPT=18297 DPT=15400 LEN=81 </test_message>
+            </example>
+        </examples>
+      </rule>
+
+       <rule id='b5049675-c91a-47a0-b9e7-865783c9d0e2' class='traffic' provider='winguru'>
+        <patterns>
+            <pattern>@ESTRING:action: @IN=@ESTRING:src_if: @OUT=@ESTRING:dst_if: @SRC=@ESTRING:src_ip: @DST=@ESTRING:dst_ip: @LEN=@ESTRING:: @TOS=@ESTRING:: @PREC=@ESTRING:: @TTL=@ESTRING:: @ID=@ESTRING:: @PROTO=@ESTRING:: @SPT=@ESTRING:: @DPT=@ESTRING:: @LEN=@ESTRING::@</pattern>
+        </patterns>
+        <examples>
+            <example>
+            <test_message program='kernel'> DROP IN=eth0 OUT= MAC=90:8d:6c:19:f4:a7:00:01:5c:63:fe:46:08:00 SRC=37.140.123.246 DST=68.55.212.82 LEN=101 TOS=0x00 PREC=0x20 TTL=112 ID=27334 DF PROTO=UDP SPT=18297 DPT=15400 LEN=81 </test_message>
+            </example>
+        </examples>
+      </rule>
+    </rules>
+  </ruleset>
+</patterndb>

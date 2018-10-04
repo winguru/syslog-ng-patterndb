@@ -1,0 +1,18 @@
+<patterndb version='4' pub_date='2018-08-13'>
+  <ruleset name='patternize' id='46074de2-6d68-2b43-a660-c92245406a74'>
+    <pattern>sm-mta</pattern>
+    <rules>
+      <rule id='88a66d8d-37c4-b549-b07c-82778d687693' class='system' provider='winguru'>
+        <!-- support: 3632 -->
+        <patterns>
+          <pattern>@ESTRING:email_qid::@ to=@ESTRING:email_recipient:,@ delay=@ESTRING:email_delivery_delay:,@ xdelay=@ESTRING:email_transmit_delay:,@ mailer=esmtp, pri=@ESTRING:email_priority:,@ relay=@ESTRING:email_relay:,@ dsn=@ESTRING:email_dsn:,@ stat=@ANYSTRING:email_status@</pattern>
+        </patterns>
+        <examples>
+            <example>
+                <test_message program='patternize'>w6DDebgB004039: to=&lt;email@addresss.com&gt;, delay=04:51:05, xdelay=00:00:00, mailer=esmtp, pri=2928632, relay=alt4.gmail-smtp-in.l.google.com., dsn=4.0.0, stat=Deferred</test_message>
+            </example>
+        </examples>
+      </rule>
+    </rules>
+  </ruleset>
+</patterndb>
